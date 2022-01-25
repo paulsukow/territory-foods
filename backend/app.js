@@ -10,9 +10,19 @@ app.get('/meals', (req, res) => {
   const filePath = './data/meals.csv'
   fs.createReadStream(filePath)
     .pipe(csv())
-    .on('data', (data) => meals.push(data))
+    .on('data', (data) => {
+      meals.push({
+        ...data,
+        tags: data.tags
+          .replace('[', '')
+          .replace(']', '')
+          .replace(/'/g, '')
+          .split(',')
+          .map(it => it.trim())
+      })
+    })
     .on('end', () => {
-      // console.log(meals)
+      console.log(meals)
       res.send(meals)
     })
 })
