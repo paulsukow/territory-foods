@@ -22,21 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private mealStore: MealStore) {}
 
   public ngOnInit(): void {
-    this.mealStore.loadMeals()
-
-    this.mealStore.selectFilteredMeals$.pipe(takeUntil(this.destroy$))
-      .subscribe((collection) => this.meals = collection)
-
-    this.mealStore.selectTags$.pipe(take(1))
-      .subscribe((collection) => {
-        this.mealTagOptions = collection
-        this.mealTagsControl.setValue(collection)
-      })
-    this.mealStore.selectMealTypes$.pipe(take(1))
-      .subscribe((collection) => {
-        this.mealTypeOptions = collection
-        this.mealTypesControl.setValue(collection)
-      })
+    this.loadData()
+    this.setInitialFormValues()
+    this.initSubscriptions()
   }
 
   public triggerMealTagsSelected(values: string[]) {
@@ -50,5 +38,27 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true)
     this.destroy$.complete()
+  }
+
+  private loadData(): void {
+    this.mealStore.loadMeals()
+  }
+
+  private initSubscriptions(): void {
+    this.mealStore.selectFilteredMeals$.pipe(takeUntil(this.destroy$))
+      .subscribe((collection) => this.meals = collection)
+  }
+
+  private setInitialFormValues() {
+    this.mealStore.selectTags$.pipe(take(1))
+      .subscribe((collection) => {
+        this.mealTagOptions = collection
+        this.mealTagsControl.setValue(collection)
+      })
+    this.mealStore.selectMealTypes$.pipe(take(1))
+      .subscribe((collection) => {
+        this.mealTypeOptions = collection
+        this.mealTypesControl.setValue(collection)
+      })
   }
 }
