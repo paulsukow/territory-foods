@@ -11,14 +11,17 @@ app.get('/meals', (req, res) => {
   fs.createReadStream(filePath)
     .pipe(csv())
     .on('data', (data) => {
+      const tags = data.tags
+        .replace('[', '')
+        .replace(']', '')
+        .replace(/'/g, '')
+        .split(',')
+        .map(it => it.trim())
+      const mealType = data.mealType.split('/')
       meals.push({
         ...data,
-        tags: data.tags
-          .replace('[', '')
-          .replace(']', '')
-          .replace(/'/g, '')
-          .split(',')
-          .map(it => it.trim())
+        tags,
+        mealType,
       })
     })
     .on('end', () => {
