@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private mealStore: MealStore) {}
 
   public ngOnInit(): void {
+    this.mealStore.loadMeals()
     this.mealStore.selectMeals$.pipe(takeUntil(this.destroy$))
       .subscribe((collection) => this.meals = collection)
   }
