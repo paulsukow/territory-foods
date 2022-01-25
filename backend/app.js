@@ -16,7 +16,8 @@ app.get('/meals', (req, res) => {
         .replace(']', '')
         .replace(/'/g, '')
         .split(',')
-        .map(it => it.trim())
+        .map(tag => tag.trim())
+        .map(tag => tag === '' ? 'no category' : tag)
       const mealType = data.mealType.split('/')
       meals.push({
         ...data,

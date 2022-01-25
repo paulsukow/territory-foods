@@ -153,7 +153,7 @@ const stubbedMeals = [
     "description": "A hearty ground turkey chili w/ corn & chipotle chilies, served over quinoa & garnished w/ charred jalapenos & grape tomatoes.",
     "img": "https://territory-assets.s3.amazonaws.com/photography-meals/e667d5b2-3330-4dd3-aa79-0b6bba32e4e9/2374.jpg",
     "tags": [
-      ""
+      "no category"
     ],
     "mealType": [
       "lunch",
@@ -183,7 +183,7 @@ const stubbedMeals = [
     "description": "Sauteed shrimp in white wine sauce & tomatoes, over brown rice. Accompanied by a side of green beans w/ almonds.",
     "img": "https://territory-assets.s3.amazonaws.com/photography-meals/9543675d-53c2-4d20-9eff-6a2fd8625ff8/2783.jpg",
     "tags": [
-      ""
+      "no category"
     ],
     "mealType": [
       "lunch",
@@ -214,7 +214,7 @@ const stubbedMeals = [
     "description": "Salmon filet crusted w/ Dijon mustard & almonds over a bed of roasted veggies, served w/ a side of white wine sauce.",
     "img": "https://territory-assets.s3.amazonaws.com/photography-meals/c250d88f-47ef-467c-b17d-3d585100893d/2781.jpg",
     "tags": [
-      ""
+      "no category"
     ],
     "mealType": [
       "lunch",
