@@ -7,12 +7,14 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppComponent } from './app.component';
-import { MealFiltersComponent } from './components/meal-filters/meal-filters.component'
+import { MealFiltersComponent } from './components/meal-filters/meal-filters.component';
+import { MealCardComponent } from './components/meal-card/meal-card.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    MealFiltersComponent
+    MealFiltersComponent,
+    MealCardComponent
   ],
   imports: [
     BrowserAnimationsModule,

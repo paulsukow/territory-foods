@@ -2,10 +2,6 @@
   <h2>Nutrition is on the menu</h2>
   <meal-filters></meal-filters>
   <div class="meal-container" fxLayout="row wrap" fxLayoutAlign="space-around">
-    <div class="meal-card" *ngFor="let meal of meals">
-      <img src="{{ meal.img }}"/>
-      <div>{{ meal.title }}</div>
-      <div>{{ meal.chef }}</div>
-    </div>
+    <meal-card *ngFor="let meal of meals" [meal]="meal"></meal-card>
   </div>
 </div>
