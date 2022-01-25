@@ -1,0 +1,14 @@
+{
+  "name": "territory-foods",
+  "version": "1.0.0",
+  "description": "territory foods interview assignment - backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Sukow",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
