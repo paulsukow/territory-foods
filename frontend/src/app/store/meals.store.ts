@@ -16,10 +16,18 @@ export interface Meal {
 
 export interface State {
   meals: Meal[]
+  tags: string[]
+  filteredTags: string[]
+  mealTypes: string[]
+  filteredMealTypes: string[]
 }
 
 const initialState: State = {
-  meals: []
+  meals: [],
+  tags: [],
+  filteredTags: [],
+  mealTypes: [],
+  filteredMealTypes: [],
 }
 
 @Injectable()
@@ -30,12 +38,64 @@ export class MealStore extends ComponentStore<State> {
   }
 
   readonly selectState$: Observable<State> = this.select(state => state)
+
+  readonly selectMealType$: Observable<string[]> = this.select(
+    this.selectState$,
+    (state) => state.mealTypes
+  )
+
+  readonly selectFilteredMealTypes$: Observable<string[]> = this.select(
+    this.selectState$,
+    (state) => state.filteredMealTypes
+  )
+
+  readonly selectTags$: Observable<string[]> = this.select(
+    this.selectState$,
+    (state) => state.tags
+  )
+
+  readonly selectFilteredTags$: Observable<string[]> = this.select(
+    this.selectState$,
+    (state) => state.filteredTags
+  )
+
   readonly selectMeals$: Observable<Meal[]> = this.select(this.selectState$,(state) => state.meals)
+
+  readonly selectFilteredMeals$: Observable<Meal[]> = this.select(
+    this.selectMeals$,
+    this.selectFilteredMealTypes$,
+    this.selectFilteredTags$,
+    (meals, filteredMealTypes, filteredTags) => {
+     return meals
+       .filter((meal) => meal.tags.some((tag) => filteredTags.includes(tag)))
+       .filter((meal) => meal.mealType.some((mealType) => filteredMealTypes.includes(mealType)))
+    }
+  )
 
   readonly setMeals = this.updater((state, meals: Meal[]) => ({
     ...state,
     meals,
-  }));
+  }))
+
+  readonly setTags = this.updater((state, tags: string[]) => ({
+    ...state,
+    tags,
+  }))
+
+  readonly setFilteredTags = this.updater((state, filteredTags: string[]) => ({
+    ...state,
+    filteredTags,
+  }))
+
+  readonly setMealTypes = this.updater((state, mealTypes: string[]) => ({
+    ...state,
+    mealTypes,
+  }))
+
+  readonly setFilteredMealTypes = this.updater((state, filteredMealTypes: string[]) => ({
+    ...state,
+    filteredMealTypes,
+  }))
 
   readonly loadMeals = this.effect((id$) => {
     return id$.pipe(
@@ -45,11 +105,31 @@ export class MealStore extends ComponentStore<State> {
         return  of(stubbedMeals)
       }),
       tapResponse(
-        (meals: Meal[]) => this.setMeals(meals),
+        (meals: Meal[]) => {
+          const tags = this.extractTagsFromMeals(meals)
+          const mealTypes = this.extractMealTypesFromMeals(meals)
+          this.setMeals(meals)
+          this.setTags(tags)
+          this.setFilteredTags(tags)
+          this.setMealTypes(mealTypes)
+          this.setFilteredMealTypes(mealTypes)
+        },
         (error) => console.log('Unable to fetch meals'),
       ),
     )
   })
+
+  private extractTagsFromMeals(collection: Meal[]): string[] {
+    return [
+      ...new Set(collection.map((entity) => entity.tags).flat())
+    ]
+  }
+
+  private extractMealTypesFromMeals(collection: Meal[]): string[] {
+    return [
+      ...new Set(collection.map((entity) => entity.mealType).flat())
+    ]
+  }
 }
 
 const stubbedMeals = [
