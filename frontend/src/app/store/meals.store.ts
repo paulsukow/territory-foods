@@ -39,7 +39,7 @@ export class MealStore extends ComponentStore<State> {
 
   readonly selectState$: Observable<State> = this.select(state => state)
 
-  readonly selectMealType$: Observable<string[]> = this.select(
+  readonly selectMealTypes$: Observable<string[]> = this.select(
     this.selectState$,
     (state) => state.mealTypes
   )

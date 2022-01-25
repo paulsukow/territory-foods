@@ -1,5 +1,17 @@
 <div class="content">
   <h2>Nutrition is on the menu</h2>
+  <mat-form-field>
+    <mat-label>Dietary Preference</mat-label>
+    <mat-select [formControl]="mealTagsControl" (valueChange)="triggerMealTagsSelected($event)" multiple>
+      <mat-option *ngFor="let option of mealTagOptions" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Meal Type</mat-label>
+    <mat-select [formControl]="mealTypesControl" (valueChange)="triggerMealTypesSelected($event)" multiple>
+      <mat-option *ngFor="let option of mealTypeOptions" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class="meal-container" fxLayout="row wrap" fxLayoutAlign="space-around">
     <div class="meal-card" *ngFor="let meal of meals">
       <img src="{{ meal.img }}"/>

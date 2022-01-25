@@ -25,7 +25,6 @@ app.get('/meals', (req, res) => {
       })
     })
     .on('end', () => {
-      console.log(meals)
       res.send(meals)
     })
 })

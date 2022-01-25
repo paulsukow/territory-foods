@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Subject, takeUntil } from 'rxjs'
+import { FormControl } from '@angular/forms'
+import { Subject, take, takeUntil } from 'rxjs'
 import { Meal, MealStore } from './store/meals.store'
 
 @Component({
@@ -9,6 +10,11 @@ import { Meal, MealStore } from './store/meals.store'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  public mealTypesControl = new FormControl()
+  public mealTagsControl = new FormControl()
+  public mealTagOptions: string[] = []
+  public mealTypeOptions: string[] = []
+
   public meals: Meal[] = []
 
   private readonly destroy$ = new Subject()
@@ -17,8 +23,28 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.mealStore.loadMeals()
+
     this.mealStore.selectFilteredMeals$.pipe(takeUntil(this.destroy$))
       .subscribe((collection) => this.meals = collection)
+
+    this.mealStore.selectTags$.pipe(take(1))
+      .subscribe((collection) => {
+        this.mealTagOptions = collection
+        this.mealTagsControl.setValue(collection)
+      })
+    this.mealStore.selectMealTypes$.pipe(take(1))
+      .subscribe((collection) => {
+        this.mealTypeOptions = collection
+        this.mealTypesControl.setValue(collection)
+      })
+  }
+
+  public triggerMealTagsSelected(values: string[]) {
+    this.mealStore.setFilteredTags(values)
+  }
+
+  public triggerMealTypesSelected(values: string[]) {
+    this.mealStore.setFilteredMealTypes(values)
   }
 
   public ngOnDestroy(): void {
